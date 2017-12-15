@@ -11,7 +11,12 @@
 
 ```ruby
 class Cat
-  # 請完成實作
+  def initialize(name)
+      @name = name
+  end
+  def name
+      @name
+  end
 end
 
 kitty = Cat.new("kitty")
@@ -32,8 +37,12 @@ p profile["name"]
 
 會得到什麼結果? 為什麼?
 
-3. (5 分) 如果要在 1 到 100 的數字當中，任意取出 5 個不重複的亂數，你會怎麼做？
+nil,因為在這個Hash中,他的Key是:name(Symbol)而不是"name"(字串),所以會拿不到東西
 
+3. (5 分) 如果要在 1 到 100 的數字當中，任意取出 5 個不重複的亂數，你會怎麼做？
+  ```ruby
+   puts [*1..100].sample(5)
+   ```
 4. (10 分)
 ```ruby
 class Bank
@@ -47,6 +56,21 @@ Bank.transfer(10)
 
 上面這段程式碼執行後會發生什麼事？為什麼？如果有錯誤又該如何修正？
 
+mid.rb:7:in `<main>': undefined method `transfer' for Bank:Class (NoMethodError)
+要先有了 Bank 類別之後，才可以用這個類別的 new 方法來產生實體，而要透過 new 方法傳參數進來，在類別裡面必須有個名為 initialize 的方法來接收傳進來的參數。在 initialize 方法裡，常見的手法是會把參數傳進來給內部的實體變數（instance variable）
+```ruby
+class Bank
+  def initialize(amount)
+    @amount=amount
+  end
+  def transfer#(amount)
+    # ...
+  end
+end
+money = Bank.new(10)
+money.transfer
+```
+
 5. (10 分) 請問以下方法：
 
 ```ruby
@@ -54,6 +78,12 @@ link_to "刪除", products_path(product), method: :delete, class: "btn btn-defau
 ```
 
 `link_to` 方法共有幾個參數？為什麼？
+
+3 個,
+```ruby
+link_to ("刪除", products_path(product), {method: :delete, class: "btn btn-default"})
+```
+因為小括號跟大括號(hash的)被省略了
 
 6. (10 分) 在 Ruby 裡面常會看到冒號的寫法，例如：
 
@@ -78,6 +108,13 @@ user_profile = {name: "kk", age: 18, blood_type: :b_negative}
 ```
 
 請問，這三種寫法分別代表什麼意思呢？
+
+左邊:Symbol,表示某個狀態,是個帶有名子的物件
+
+右邊:設定的意思,如將age設定成18
+
+兩邊:namespace,為了讓可能同名的方法或類別可以區分，所以在include時要連名帶姓的叫
+
 
 ## Rails 題目 (30 分)
 
